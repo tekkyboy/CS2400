@@ -6,8 +6,27 @@
  */
 public class ArrayMaxHeap<T extends Comparable<? super T>> implements MaxHeapInterface<T> {
 
+	private T[] arrayHeap;
+	public final static int DEFAULT_CAPACITY = 50;
+	public final static int MAX_SIZE = 10000;
 	private int size = 0;
-	private T[] arrayHeap = (T[]) new Object[10000];
+	private int childNode;
+	private int parentNode;
+	private int newIndex;
+
+	public ArrayMaxHeap() {
+		this(DEFAULT_CAPACITY);
+	}
+
+	public ArrayMaxHeap(int initialCapacity) {
+		if (initialCapacity < DEFAULT_CAPACITY) {
+			initialCapacity = DEFAULT_CAPACITY;
+		} else if (initialCapacity < DEFAULT_CAPACITY) {
+			throw new IndexOutOfBoundsException();
+		}
+		arrayHeap = (T[]) new Comparable[initialCapacity + 1];
+		size = 0;
+	}
 
 	/**
 	 * Adds a new entry to this heap.
@@ -16,16 +35,15 @@ public class ArrayMaxHeap<T extends Comparable<? super T>> implements MaxHeapInt
 	 */
 	@Override
 	public void add(T newEntry) {
-		int childNode = size;
-		int parentNode = childNode / 2;
-		while ((childNode > 1) && (arrayHeap[parentNode].compareTo(arrayHeap[childNode]) < 0)) {
-			arrayHeap[childNode] = arrayHeap[parentNode];
-			childNode = parentNode;
-			parentNode = childNode / 2;
+		newIndex = size + 1;
+		if (size <= MAX_SIZE) {
+			childNode = newIndex;
+			arrayHeap[childNode] = newEntry;
+			maxUpHeapify(childNode);
+			size++;
+		} else if (size > MAX_SIZE) {
+			throw new IndexOutOfBoundsException();
 		}
-		arrayHeap[childNode] = newEntry;
-		size++;
-		// maxUpHeapify();
 	}
 
 	/**
@@ -88,13 +106,19 @@ public class ArrayMaxHeap<T extends Comparable<? super T>> implements MaxHeapInt
 	/** Removes all entries from this heap. */
 	@Override
 	public void clear() {
-		while (arrayHeap[size] != null) {
+		while (size > -1) {
 			arrayHeap[size] = null;
 			size--;
 		}
 		size = 0;
 	}
 
+	/**
+	 * Swap function between two integers
+	 * 
+	 * @param pt1
+	 * @param pt2
+	 */
 	private void swap(int pt1, int pt2) {
 		T temp = arrayHeap[pt1];
 		arrayHeap[pt1] = arrayHeap[pt2];
@@ -109,15 +133,33 @@ public class ArrayMaxHeap<T extends Comparable<? super T>> implements MaxHeapInt
 	private void maxHeapify(int rootNode) {
 		int leftChild = 2 * rootNode;
 		int rightChild = leftChild + 1;
-		int largestNode = rootNode;
-		if (leftChild <= size && arrayHeap[leftChild].compareTo(arrayHeap[rootNode]) > 0) {
-			largestNode = leftChild;
-		} else if (rightChild <= size && arrayHeap[rightChild].compareTo(arrayHeap[largestNode]) > 0) {
-			largestNode = rightChild;
-		} else if (largestNode != rootNode) {
-			swap(rootNode, largestNode);
-			maxHeapify(largestNode);
+		parentNode = rootNode;
+		if (leftChild <= size && arrayHeap[leftChild].compareTo(arrayHeap[parentNode]) > 0
+				&& (int) arrayHeap[leftChild] > (int) arrayHeap[rightChild]) {
+
+			parentNode = leftChild;
+
+		} else if (rightChild <= size && arrayHeap[rightChild].compareTo(arrayHeap[parentNode]) > 0
+				&& (int) arrayHeap[rightChild] > (int) arrayHeap[leftChild]) {
+			parentNode = rightChild;
+		} else if (parentNode != rootNode) {
+			swap(rootNode, parentNode);
+			maxHeapify(parentNode);
 		}
+		arrayHeap[1] = arrayHeap[parentNode];
 	}
 
+	/**
+	 * Adjust the heap in case of an addition.
+	 * 
+	 * @param childNode
+	 */
+	private void maxUpHeapify(int childNode) {
+		parentNode = childNode / 2;
+		while (childNode > 1 && arrayHeap[parentNode].compareTo(arrayHeap[childNode]) < 0) {
+			swap(parentNode, childNode);
+			childNode = parentNode;
+			parentNode = childNode / 2;
+		}
+	}
 }
