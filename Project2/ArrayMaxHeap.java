@@ -1,5 +1,7 @@
 /**
  * 
+ * ArrayMaxHeap is an implementation of the MaxHeapInterface, which organizes elements in a specified order.
+ * 
  * @author Parayao_K
  *
  * @param <T>
