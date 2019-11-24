@@ -1,6 +1,7 @@
 /**
  * 
- * ArrayMaxHeap is an implementation of the MaxHeapInterface, which organizes elements in a specified order.
+ * ArrayMaxHeap is an implementation of the MaxHeapInterface, which organizes
+ * elements in a specified order.
  * 
  * @author Parayao_K
  *
@@ -10,8 +11,9 @@ public class ArrayMaxHeap<T extends Comparable<? super T>> implements MaxHeapInt
 
 	private T[] arrayHeap;
 	public final static int DEFAULT_CAPACITY = 50;
-	public final static int MAX_SIZE = 10000;
+	public final static int MAX_CAPACITY = 10000;
 	private int size = 0;
+	private int defaultPointer;
 	private int childNode;
 	private int parentNode;
 	private int newIndex;
@@ -21,13 +23,28 @@ public class ArrayMaxHeap<T extends Comparable<? super T>> implements MaxHeapInt
 	}
 
 	public ArrayMaxHeap(int initialCapacity) {
-		if (initialCapacity < DEFAULT_CAPACITY) {
+		if (initialCapacity < DEFAULT_CAPACITY && initialCapacity < MAX_CAPACITY) {
 			initialCapacity = DEFAULT_CAPACITY;
-		} else if (initialCapacity < DEFAULT_CAPACITY) {
+		} else if (initialCapacity > DEFAULT_CAPACITY && initialCapacity > MAX_CAPACITY) {
 			throw new IndexOutOfBoundsException();
 		}
 		arrayHeap = (T[]) new Comparable[initialCapacity + 1];
 		size = 0;
+	}
+
+	public ArrayMaxHeap(T[] array) {
+		size = array.length + 1;
+		arrayHeap = (T[]) new Comparable[size];
+		for (int i = 1; i < size; i++) {
+			arrayHeap[0] = null;
+			arrayHeap[i] = array[i - 1];
+			if (size <= MAX_CAPACITY) {
+				childNode = i;
+				buildMaxHeap(childNode);
+			} else if (size > MAX_CAPACITY) {
+				throw new IndexOutOfBoundsException();
+			}
+		}
 	}
 
 	/**
@@ -38,12 +55,12 @@ public class ArrayMaxHeap<T extends Comparable<? super T>> implements MaxHeapInt
 	@Override
 	public void add(T newEntry) {
 		newIndex = size + 1;
-		if (size <= MAX_SIZE) {
+		if (size <= MAX_CAPACITY) {
 			childNode = newIndex;
 			arrayHeap[childNode] = newEntry;
 			maxUpHeapify(childNode);
 			size++;
-		} else if (size > MAX_SIZE) {
+		} else if (size > MAX_CAPACITY) {
 			throw new IndexOutOfBoundsException();
 		}
 	}
@@ -138,9 +155,7 @@ public class ArrayMaxHeap<T extends Comparable<? super T>> implements MaxHeapInt
 		parentNode = rootNode;
 		if (leftChild <= size && arrayHeap[leftChild].compareTo(arrayHeap[parentNode]) > 0
 				&& (int) arrayHeap[leftChild] > (int) arrayHeap[rightChild]) {
-
 			parentNode = leftChild;
-
 		} else if (rightChild <= size && arrayHeap[rightChild].compareTo(arrayHeap[parentNode]) > 0
 				&& (int) arrayHeap[rightChild] > (int) arrayHeap[leftChild]) {
 			parentNode = rightChild;
@@ -157,6 +172,20 @@ public class ArrayMaxHeap<T extends Comparable<? super T>> implements MaxHeapInt
 	 * @param childNode
 	 */
 	private void maxUpHeapify(int childNode) {
+		parentNode = childNode / 2;
+		while (childNode > 1 && arrayHeap[parentNode].compareTo(arrayHeap[childNode]) < 0) {
+			swap(parentNode, childNode);
+			childNode = parentNode;
+			parentNode = childNode / 2;
+		}
+	}
+
+	/**
+	 * Adjusts an array's elements through a heap.
+	 * 
+	 * @param childNode
+	 */
+	private void buildMaxHeap(int childNode) {
 		parentNode = childNode / 2;
 		while (childNode > 1 && arrayHeap[parentNode].compareTo(arrayHeap[childNode]) < 0) {
 			swap(parentNode, childNode);
