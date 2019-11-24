@@ -1,7 +1,9 @@
 /**
+ * CS2400.02 
+ * Project #2 
+ * Cal Poly Pomona 
+ * Dominick Atanasio
  * 
- * ArrayMaxHeap is an implementation of the MaxHeapInterface, which organizes
- * elements in a specified order.
  * 
  * @author Parayao_K
  *
@@ -13,10 +15,10 @@ public class ArrayMaxHeap<T extends Comparable<? super T>> implements MaxHeapInt
 	public final static int DEFAULT_CAPACITY = 50;
 	public final static int MAX_CAPACITY = 10000;
 	private int size = 0;
-	private int defaultPointer;
 	private int childNode;
 	private int parentNode;
 	private int newIndex;
+	private boolean constructorIsUsed;
 
 	public ArrayMaxHeap() {
 		this(DEFAULT_CAPACITY);
@@ -33,6 +35,7 @@ public class ArrayMaxHeap<T extends Comparable<? super T>> implements MaxHeapInt
 	}
 
 	public ArrayMaxHeap(T[] array) {
+		constructorIsUsed = true;
 		size = array.length + 1;
 		arrayHeap = (T[]) new Comparable[size];
 		for (int i = 1; i < size; i++) {
@@ -76,7 +79,11 @@ public class ArrayMaxHeap<T extends Comparable<? super T>> implements MaxHeapInt
 		T rootNode = null;
 		if (!isEmpty()) {
 			rootNode = arrayHeap[1];
-			arrayHeap[1] = arrayHeap[size];
+			if (constructorIsUsed) {
+				arrayHeap[1] = arrayHeap[size-1];
+			} else {
+				arrayHeap[1] = arrayHeap[size];
+			}
 			size--;
 			maxHeapify(1);
 		}
