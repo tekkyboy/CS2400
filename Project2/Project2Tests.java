@@ -5,7 +5,7 @@ import org.junit.Test;
 public class Project2Tests {
 
 	@Test
-	public void test() {
+	public <T> void test() {
 		MaxHeapInterface<Integer> test1 = new ArrayMaxHeap<>();
 
 		int a = 55;
