@@ -1,31 +1,23 @@
+/**
+ * CS2400.02 
+ * Project #2 
+ * Cal Poly Pomona 
+ * Dominick Atanasio
+ * 
+ * @author Parayao_K
+ *
+ * @param <T>
+ */
 public class MaxHeapPriorityQueue<T extends Comparable<? super T>> implements PriorityQueueInterface<T> {
 
 	private MaxHeapInterface<T> priorityQueueAMH;
-	private T[] arrayHeap;
-	public final static int MAX_CAPACITY = 10000;
-	private int size = 0;
-	private int defaultPointer = 0;
-	private int parentNode;
-	private int childNode;
-	private int newIndex;
 
 	public MaxHeapPriorityQueue() {
 		priorityQueueAMH = new ArrayMaxHeap<>();
 	}
 
 	public MaxHeapPriorityQueue(T[] array) {
-		size = array.length + 1;
-		arrayHeap = (T[]) new Comparable[size];
-		for (int i = 1; i < size; i++) {
-			arrayHeap[0] = null;
-			arrayHeap[i] = array[i - 1];
-			if (size <= MAX_CAPACITY) {
-				childNode = i;
-				buildMaxHeap(childNode);
-			} else if (size > MAX_CAPACITY) {
-				throw new IndexOutOfBoundsException();
-			}
-		}
+		priorityQueueAMH = new ArrayMaxHeap(array);
 	}
 
 	/**
@@ -61,10 +53,6 @@ public class MaxHeapPriorityQueue<T extends Comparable<? super T>> implements Pr
 	 */
 	@Override
 	public T peek() {
-		boolean isEmpty = isEmpty();
-		if (isEmpty) {
-			return null;
-		}
 		return priorityQueueAMH.getMax();
 	}
 
@@ -94,32 +82,7 @@ public class MaxHeapPriorityQueue<T extends Comparable<? super T>> implements Pr
 	@Override
 	public void clear() {
 		priorityQueueAMH.clear();
-	}
 
-	/**
-	 * Swap function between two integers
-	 * 
-	 * @param pt1
-	 * @param pt2
-	 */
-	private void swap(int pt1, int pt2) {
-		T temp = arrayHeap[pt1];
-		arrayHeap[pt1] = arrayHeap[pt2];
-		arrayHeap[pt2] = temp;
-	}
-
-	/**
-	 * Adjusts an array's elements through a heap.
-	 * 
-	 * @param childNode
-	 */
-	private void buildMaxHeap(int childNode) {
-		parentNode = childNode / 2;
-		while (childNode > 1 && arrayHeap[parentNode].compareTo(arrayHeap[childNode]) < 0) {
-			swap(parentNode, childNode);
-			childNode = parentNode;
-			parentNode = childNode / 2;
-		}
 	}
 
 }
