@@ -1,4 +1,12 @@
-
+/**
+ * CS2400.02 
+ * Project #2 
+ * Cal Poly Pomona 
+ * Dominick Atanasio
+ * 
+ * @author Parayao_K
+ *
+ */
 public class MaxHeapInterfaceTest {
 
 	public static void main(String[] args) {
@@ -12,9 +20,16 @@ public class MaxHeapInterfaceTest {
 		divideSpace();
 		testForIsEmptyAndIsClear();
 		divideSpace();
-		testForSpecialConstructor();
+		testForValues();
+		divideSpace();
+		testForConstructor();
+		divideSpace();
+		testForRemoveRootNode();
 	}
 
+	/**
+	 * Tests add method for integers.
+	 */
 	private static void testForAddInteger() {
 		int a = 55;
 		int b = 33;
@@ -46,18 +61,23 @@ public class MaxHeapInterfaceTest {
 
 	}
 
+	/**
+	 * Method to create space for ease of readability
+	 */
 	private static void divideSpace() {
 		System.out.println("------------------------");
 	}
 
+	/**
+	 * Tests add method for doubles.
+	 */
 	private static void testForAddDouble() {
 		double a = 52.5;
 		double b = 66.6;
 		double c = 78.8;
 		double d = 42.42;
 		double e = 45.46;
-		
-		
+
 		MaxHeapInterface<Double> test1Double = new ArrayMaxHeap<>();
 		PriorityQueueInterface<Double> test2Double = new MaxHeapPriorityQueue<>();
 
@@ -81,6 +101,9 @@ public class MaxHeapInterfaceTest {
 		System.out.println("The size of the test2Double array is: " + test2Double.getSize());
 	}
 
+	/**
+	 * Tests add method for float values.
+	 */
 	private static void testForAddFloat() {
 		float a = 52.524f;
 		float b = 66.624f;
@@ -111,6 +134,9 @@ public class MaxHeapInterfaceTest {
 		System.out.println("The size of the test2Float array is: " + test2Float.getSize());
 	}
 
+	/**
+	 * Tests add method for negative integers.
+	 */
 	private static void testForAddNegatives() {
 		int a = -55;
 		int b = -33;
@@ -142,6 +168,9 @@ public class MaxHeapInterfaceTest {
 
 	}
 
+	/**
+	 * Tests the methods empty and clear.
+	 */
 	private static void testForIsEmptyAndIsClear() {
 		int a = 55;
 		int b = 33;
@@ -179,141 +208,128 @@ public class MaxHeapInterfaceTest {
 
 	}
 
-	private static void testForSpecialConstructor() {
-		MaxHeapInterface<Integer> test1Constructor = new ArrayMaxHeap<>();
-		PriorityQueueInterface<Integer> test2Constructor = new MaxHeapPriorityQueue<>();
+	/**
+	 * Manually tests values and returns the root node.
+	 */
+	private static void testForValues() {
+		MaxHeapInterface<Integer> test1Values = new ArrayMaxHeap<>();
+		PriorityQueueInterface<Integer> test2Values = new MaxHeapPriorityQueue<>();
 
-		Integer[] array = {88, 42, 100, 99, 70, 50, 81};
+		int a = 40;
+		int b = 50;
+		int c = 20;
+		int d = 10;
+		int e = 30;
+		int f = 60;
+		int g = 80;
+		int h = 90;
+		int i = 85;
+		int j = 70;
 
-		MaxHeapInterface amh = new ArrayMaxHeap(array);
-		PriorityQueueInterface pqi = new MaxHeapPriorityQueue(array);
-		
-		System.out.println("The max of amh is: " + amh.getMax());
-		System.out.println("The max of pqi is: " + pqi.peek());
+		test1Values.add(a);
+		test1Values.add(b);
+		test1Values.add(c);
+		test1Values.add(d);
+		test1Values.add(e);
+		test1Values.add(f);
+		test1Values.add(g);
+		test1Values.add(h);
+		test1Values.add(j);
+
+		test2Values.add(a);
+		test2Values.add(b);
+		test2Values.add(c);
+		test2Values.add(d);
+		test2Values.add(e);
+		test2Values.add(f);
+		test2Values.add(g);
+		test2Values.add(h);
+		test2Values.add(j);
+
+		int t1 = test1Values.getMax();
+		int t2 = test2Values.peek();
+
+		test1Values.add(i);
+		test2Values.add(i);
+
+		if (t1 == t2) {
+			System.out.println("The root node for t1 is: " + t1 + " and t2 is: " + t2);
+		} else {
+			System.out.println("The root node for t1 and t2 are not expected values");
+		}
 
 	}
 
-}
+	/**
+	 * Tests array constructor and returns the root node.
+	 */
+	private static void testForConstructor() {
+		MaxHeapInterface<Integer> test1Constructor;
+		PriorityQueueInterface<Integer> test2Constructor;
 
-//
-//MaxHeapInterface<Integer> test1 = new ArrayMaxHeap<>();
-//
-//
-//System.out.println("Test 1 is empty?: " + test1.isEmpty());
-//
-//test1.add(a);
-//
-//System.out.println("The size of the array is: " + test1.getSize());
-//
-//test1.add(b);
-//test1.add(c);
-//
-//System.out.println("The size of the array is: " + test1.getSize());
-//
-//System.out.println("Test 1 is empty?: " + test1.isEmpty());
-//
-//test1.clear();
-//
-//System.out.println("The size of the array is: " + test1.getSize());
-//
-//System.out.println("Test 1 is empty?: " + test1.isEmpty());
-//
-//System.out.println("The largest number of the array is: " + test1.getMax());
-//System.out.println("The largest number of the array is: " + test1.removeMax());
-//
-//test1.add(a);
-//test1.add(b);
-//test1.add(c);
-//test1.add(d);
-//test1.add(e);
-//
-//System.out.println("The largest number of the array is: " + test1.getMax());
-//System.out.println("The largest number of the array was previously: " + test1.removeMax());
-//System.out.println("The largest number of the array was previously: " + test1.removeMax());
-//
-//test1.clear();
-//test1.add(b);
-//test1.add(c);
-//test1.add(a);
-//test1.add(e);
-//test1.add(d);
-//
-//System.out.println("The largest number of the array is: " + test1.getMax());
-//System.out.println("The largest number of the array was previously: " + test1.removeMax());
-//System.out.println("The largest number of the array was previously: " + test1.removeMax());
-//
-//test1.clear();
-//test1.add(a);
-//test1.add(b);
-//test1.add(c);
-//test1.add(d);
-//test1.add(e);
-//test1.add(f);
-//test1.add(g);
-//
-//System.out.println("The largest number of the array is: " + test1.getMax());
-//System.out.println("The largest number of the array was previously: " + test1.removeMax());
-//System.out.println("The largest number of the array was previously: " + test1.removeMax());
-//System.out.println("----------------------------------------------");
-//
-//
-//
-//// If the results are the same as the above, then it works
-//PriorityQueueInterface<Integer> test2 = new MaxHeapPriorityQueue<>();
-//
-//System.out.println("Test 2 is empty?: " + test2.isEmpty());
-//
-//test2.add(a);
-//
-//System.out.println("The size of the array is: " + test2.getSize());
-//
-//test2.add(b);
-//test2.add(c);
-//
-//System.out.println("The size of the array is: " + test2.getSize());
-//
-//System.out.println("Test 2 is empty?: " + test2.isEmpty());
-//
-//test2.clear();
-//
-//System.out.println("The size of the array is: " + test2.getSize());
-//
-//System.out.println("Test 1 is empty?: " + test2.isEmpty());
-//
-//System.out.println("The largest number of the array is: " + test2.peek());
-//System.out.println("The largest number of the array is: " + test2.remove());
-//
-//test2.add(a);
-//test2.add(b);
-//test2.add(c);
-//test2.add(d);
-//test2.add(e);
-//
-//System.out.println("The largest number of the array is: " + test2.peek());
-//System.out.println("The largest number of the array was previously: " + test2.remove());
-//System.out.println("The largest number of the array was previously: " + test2.remove());
-//
-//test2.clear();
-//test2.add(b);
-//test2.add(c);
-//test2.add(a);
-//test2.add(e);
-//test2.add(d);
-//
-//System.out.println("The largest number of the array is: " + test2.peek());
-//System.out.println("The largest number of the array was previously: " + test2.remove());
-//System.out.println("The largest number of the array was previously: " + test2.remove());
-//
-//test2.clear();
-//test2.add(a);
-//test2.add(b);
-//test2.add(c);
-//test2.add(d);
-//test2.add(e);
-//test2.add(f);
-//test2.add(g);
-//
-//System.out.println("The largest number of the array is: " + test2.peek());
-//System.out.println("The largest number of the array was previously: " + test2.remove());
-//System.out.println("The largest number of the array was previously: " + test2.remove());
-//System.out.println("----------------------------------------------");
+		int a = 40;
+		int b = 50;
+		int c = 20;
+		int d = 10;
+		int e = 30;
+		int f = 60;
+		int g = 80;
+		int h = 90;
+		int i = 85;
+		int j = 70;
+
+		Integer[] array = { a, b, c, d, e, f, g, h, j, i };
+
+		test1Constructor = new ArrayMaxHeap(array);
+		test2Constructor = new MaxHeapPriorityQueue(array);
+
+		int t1 = test1Constructor.getMax();
+		int t2 = test2Constructor.peek();
+
+		if (t1 == t2) {
+			System.out.println("The root node for t1 is: " + t1 + " and t2 is: " + t2);
+		} else {
+			System.out.println("The root node for t1 and t2 are not expected values");
+		}
+	}
+
+	/**
+	 * Tests the remove method and returns the root node that has been removed.
+	 */
+	public static void testForRemoveRootNode() {
+
+		MaxHeapInterface<Integer> test1Remove;
+		PriorityQueueInterface<Integer> test2Remove;
+
+		int a = 40;
+		int b = 50;
+		int c = 20;
+		int d = 10;
+		int e = 30;
+		int f = 60;
+		int g = 80;
+		int h = 90;
+		int i = 85;
+		int j = 70;
+
+		Integer[] array = { a, b, c, d, e, f, g, h, j, i };
+
+		test1Remove = new ArrayMaxHeap(array);
+		test2Remove = new MaxHeapPriorityQueue(array);
+
+		int t1a = test1Remove.removeMax();
+		int t1b = test1Remove.removeMax();
+		int t2a = test2Remove.remove();
+		int t2b = test2Remove.remove();
+
+		if (t1a == t2a) {
+			System.out.println("The previous root node of test1Remove is: " + t1a + " and of test2Remove is: " + t2a);
+			if (t1b == t2b) {
+				System.out.println("The previous root node of test1Remove is: " + t1b + " and of test2Remove is: " + t2b);
+			}
+		} else {
+			System.out.println("The root node for t1 and t2 are not expected values");
+		}
+	}
+
+}
