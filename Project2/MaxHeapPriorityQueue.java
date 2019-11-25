@@ -12,10 +12,17 @@ public class MaxHeapPriorityQueue<T extends Comparable<? super T>> implements Pr
 
 	private MaxHeapInterface<T> priorityQueueAMH;
 
+	/**
+	 * Default Constructor
+	 */
 	public MaxHeapPriorityQueue() {
 		priorityQueueAMH = new ArrayMaxHeap<>();
 	}
 
+	/**
+	 * Constructor with array in parameter.
+	 * @param array is the parameter.
+	 */
 	public MaxHeapPriorityQueue(T[] array) {
 		priorityQueueAMH = new ArrayMaxHeap(array);
 	}

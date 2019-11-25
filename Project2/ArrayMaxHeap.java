@@ -20,10 +20,17 @@ public class ArrayMaxHeap<T extends Comparable<? super T>> implements MaxHeapInt
 	private int newIndex;
 	private boolean constructorIsUsed;
 
+	/**
+	 * Default Constructor
+	 */
 	public ArrayMaxHeap() {
 		this(DEFAULT_CAPACITY);
 	}
 
+	/**
+	 * Constructor with defined capacity for array.
+	 * @param initialCapacity is the defined capacity for the array.
+	 */
 	public ArrayMaxHeap(int initialCapacity) {
 		if (initialCapacity < DEFAULT_CAPACITY && initialCapacity < MAX_CAPACITY) {
 			initialCapacity = DEFAULT_CAPACITY;
@@ -34,13 +41,19 @@ public class ArrayMaxHeap<T extends Comparable<? super T>> implements MaxHeapInt
 		size = 0;
 	}
 
+	/**
+	 * Constructor with an array as an argument.
+	 * @param array is the parameter.
+	 */
 	public ArrayMaxHeap(T[] array) {
 		constructorIsUsed = true;
-		size = array.length + 1;
-		arrayHeap = (T[]) new Comparable[size];
-		for (int i = 1; i < size; i++) {
-			arrayHeap[0] = null;
-			arrayHeap[i] = array[i - 1];
+		size = array.length;
+		arrayHeap = (T[]) new Comparable[size + 1];
+		arrayHeap[0] = null;
+		int index = 0;
+		for (int i = 0; i < size; i++) {
+			index = i + 1;
+			arrayHeap[index] = array[index - 1];
 			if (size <= MAX_CAPACITY) {
 				childNode = i;
 				buildMaxHeap(childNode);
@@ -79,11 +92,7 @@ public class ArrayMaxHeap<T extends Comparable<? super T>> implements MaxHeapInt
 		T rootNode = null;
 		if (!isEmpty()) {
 			rootNode = arrayHeap[1];
-			if (constructorIsUsed) {
-				arrayHeap[1] = arrayHeap[size-1];
-			} else {
-				arrayHeap[1] = arrayHeap[size];
-			}
+			arrayHeap[1] = arrayHeap[size];
 			size--;
 			maxHeapify(1);
 		}
@@ -160,17 +169,21 @@ public class ArrayMaxHeap<T extends Comparable<? super T>> implements MaxHeapInt
 		int leftChild = 2 * rootNode;
 		int rightChild = leftChild + 1;
 		parentNode = rootNode;
-		if (leftChild <= size && arrayHeap[leftChild].compareTo(arrayHeap[parentNode]) > 0
-				&& (int) arrayHeap[leftChild] > (int) arrayHeap[rightChild]) {
+		boolean done = false;
+		T orphan = arrayHeap[rootNode];
+		T largestNode= arrayHeap[parentNode];
+
+		if (leftChild <= size && arrayHeap[leftChild].compareTo(largestNode) > 0) {
 			parentNode = leftChild;
-		} else if (rightChild <= size && arrayHeap[rightChild].compareTo(arrayHeap[parentNode]) > 0
-				&& (int) arrayHeap[rightChild] > (int) arrayHeap[leftChild]) {
+			largestNode = arrayHeap[leftChild];
+		} 
+		if (rightChild <= size && arrayHeap[rightChild].compareTo(largestNode) > 0) {
 			parentNode = rightChild;
-		} else if (parentNode != rootNode) {
+		} 
+		if (parentNode != rootNode) {
 			swap(rootNode, parentNode);
 			maxHeapify(parentNode);
 		}
-		arrayHeap[1] = arrayHeap[parentNode];
 	}
 
 	/**
