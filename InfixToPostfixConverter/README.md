@@ -1,5 +1,5 @@
 # CS2400
-# InfixToPostfixConverter
+# Infix To Postfix Converter
 This project, in essence, deals with the nature of stack implementation written 
 in the java programming language without the usage any of the collections found in the java library.
 
